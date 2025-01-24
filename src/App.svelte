@@ -6,7 +6,7 @@
   import LogoutButton from './lib/LogoutButton.svelte'
 
   let logged: boolean
-  let activePage: string
+  
 
   onMount(async () => {
     logged = localStorage.getItem('authToken') !== null
@@ -21,8 +21,8 @@
     {#if !logged}
       <LoginForm bind:isLogged={logged}/>
     {:else}
-      <DataTable dataName="devices"/>
-      <LogoutButton setLogout="{() => {logged = false;}}"/>
+      <DataTable dataName="devices" dataHeaders={['#','name', 'os supported','group']}/>
+      <LogoutButton setLogout="{() => {logged = false}}"/>
     {/if}
   </main>
 </div>

@@ -16,8 +16,8 @@
     <table>
         <thead>
         <tr>
-            {#each Object.keys(data[0]) as key}
-                    <th>{key}</th>
+            {#each props.dataHeaders as header}
+                    <th>{header}</th>
             {/each}
         </tr>
         </thead>
