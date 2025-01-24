@@ -1,28 +1,26 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import Navbar from './lib/Navbar.svelte'
+  import { onMount } from 'svelte'
+  import Header from './lib/Header.svelte'
   import LoginForm from './lib/LoginForm.svelte'
   import DataTable from './lib/DataTable.svelte'
-  import LogoutButton from './lib/LogoutButton.svelte'
 
-  let logged: boolean
-  
+  let isLogged: boolean
+
 
   onMount(async () => {
-    logged = localStorage.getItem('authToken') !== null
-  });
-
+    isLogged = localStorage.getItem('authToken') !== null
+  })
+ 
 </script>
 
 <div>
-  <Navbar/>
+  <Header bind:isLogged={isLogged}/>
   <main>
     <h2>Bienvenue sur notre page d'accueil !</h2>
-    {#if !logged}
-      <LoginForm bind:isLogged={logged}/>
+    {#if !isLogged}
+      <LoginForm bind:isLogged={isLogged}/>
     {:else}
       <DataTable dataName="devices" dataHeaders={['#','name', 'os supported','group']}/>
-      <LogoutButton setLogout="{() => {logged = false}}"/>
     {/if}
   </main>
 </div>

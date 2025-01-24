@@ -1,15 +1,15 @@
 <script>
     import { logout } from '../api/auth'
 
-    let { setLogout } = $props()
+    let { isLogged = $bindable() } = $props()
 
     function logoutFromAPI() {
         logout()
-        setLogout()
+        isLogged = false
     }
     
 </script>
 
 <div>
-    <button onclick="{logoutFromAPI}">logout</button>
+    <a onclick="{logoutFromAPI}">Logout</a>
 </div>
