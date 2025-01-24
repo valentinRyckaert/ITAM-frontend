@@ -1,18 +1,91 @@
-const URI: string = "http://localhost:8000/";
+const URI: string = "http://localhost:8000/"
 
-export async function getAllFromDB(txt: string) {
-    const response = await fetch(URI + `${txt}/`, {
+export async function getAllFromDB(ressourceName: string) {
+    const response = await fetch(URI + `${ressourceName}/`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }
-    });
+    })
 
     if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(JSON.stringify(errorData));
+        const errorData = await response.json()
+        throw new Error(JSON.stringify(errorData))
     }
 
-    return await response.json();
+    return await response.json()
+}
+
+export async function getOneFromDB(ressourceName: string, ressourceId: number) {
+    const response = await fetch(URI + `${ressourceName}/${ressourceId}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+    })
+
+    if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(JSON.stringify(errorData))
+    }
+
+    return await response.json()
+}
+
+export async function postData(ressourceName:string, newRessource:Object) {
+    const response = await fetch(URI + `${ressourceName}/`, {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        },
+        body: newRessource.toString()
+    })
+    if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(JSON.stringify(errorData))
+    }
+    const data = await response.json()
+    localStorage.setItem('authToken', data.access_token)
+    return data
+}
+
+export async function putData(ressourceName:string, ressourceId: number, updatedRessource:Object) {
+    const response = await fetch(URI + `${ressourceName}/${ressourceId}`, {
+        method: "PUT",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        },
+        body: updatedRessource.toString()
+    })
+    if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(JSON.stringify(errorData))
+    }
+    const data = await response.json()
+    localStorage.setItem('authToken', data.access_token)
+    return data
+}
+
+export async function deleteData(ressourceName: string, ressourceId: number) {
+    const response = await fetch(URI + `${ressourceName}/${ressourceId}/delete`, {
+        method: "DELETE",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        }
+    })
+    if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(JSON.stringify(errorData))
+    }
+    const data = await response.json()
+    localStorage.setItem('authToken', data.access_token)
+    return data
 }
