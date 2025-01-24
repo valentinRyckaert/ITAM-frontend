@@ -1,30 +1,37 @@
 <script lang="ts">
-  import { login, getCurrentUser } from './api/auth'
-  import { getAllFromDB } from './api/data'
+  import { onMount } from 'svelte';
+  import Navbar from './lib/Navbar.svelte'
+  import LoginForm from './lib/LoginForm.svelte'
+  import DataTable from './lib/DataTable.svelte'
+  import LogoutButton from './lib/LogoutButton.svelte'
 
-  let response
-  let text = $state("")
+  let logged: boolean
+  let activePage: string
 
-  async function do_login() {
-    response = await login("admin","admin")
-    console.log(response)
-  }
-
-  async function getCurrent() {
-    response = await getCurrentUser()
-    console.log(response)
-  }
-
-  async function getAll() {
-    response = await getAllFromDB(text)
-    console.log(response)
-  }
+  onMount(async () => {
+    logged = localStorage.getItem('authToken') !== null
+  });
 
 </script>
 
 <div>
-  <button onclick={do_login}>login</button>
-  <button onclick={getCurrent}>me</button>
-  <button onclick={getAll}>getAll</button>
-  <input type="text" bind:value={text}>
+  <Navbar/>
+  <main>
+    <h2>Bienvenue sur notre page d'accueil !</h2>
+    {#if !logged}
+      <LoginForm bind:isLogged={logged}/>
+    {:else}
+      <DataTable dataName="devices"/>
+      <LogoutButton setLogout="{() => {logged = false;}}"/>
+    {/if}
+  </main>
 </div>
+
+<style lang="scss">
+  main {
+    padding: 20px;
+    h2 {
+      color: #333;
+    }
+  }
+</style>
