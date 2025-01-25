@@ -11,5 +11,5 @@
 </script>
 
 <div>
-    <div onclick="{logoutFromAPI}">Logout</div>
+    <div href="#" onclick="{logoutFromAPI}">Logout</div>
 </div>

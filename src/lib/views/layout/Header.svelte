@@ -1,22 +1,36 @@
 <script lang="ts">
     import LogoutButton from '../../components/LogoutButton.svelte'
 
-    let { isLogged = $bindable() } = $props()
+    let { isLogged = $bindable(), activePage = $bindable() } = $props()
 
 </script>
 
 <nav id="navbar">
-    <h1>ITAM</h1>
+    <h1><a href="#" onclick={() => { activePage = "home" }}>
+        ITAM
+    </a></h1>
     <ul>
-      <li>Devices</li>
-      <li>Packages</li>
-      <li>Deployement</li>
-      <li>Users</li>
-      {#if isLogged}
-        <li class="end">Account</li>
-        <li class="end"><LogoutButton bind:isLogged={isLogged}/></li>
-      {/if}
-    </ul>
+        <li><a href="#devices" onclick={() => { activePage = "devices" }}>
+            Devices
+        </a></li>
+        <li><a href="#packages" onclick={() => { activePage = "packages" }}>
+            Packages
+        </a></li>
+        <li><a href="#deployement" onclick={() => { activePage = "deployement" }}>
+            Deployement
+        </a></li>
+        <li><a href="#users" onclick={() => { activePage = "users" }}>
+            Users
+        </a></li>
+        {#if isLogged}
+            <li class="end"><a href="#account" onclick={() => { activePage = "account" }}>
+                Account
+            </a></li>
+            <li class="end"><a href="#" onclick={() => { activePage = "home" }}>
+                <LogoutButton bind:isLogged={isLogged}/>
+            </a></li>
+        {/if}
+        </ul>
 </nav>
 
 <style lang="scss">
@@ -52,6 +66,11 @@
             text-align: center;
             margin-inline: 10px;
             cursor: pointer;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
         }
 
         .end {

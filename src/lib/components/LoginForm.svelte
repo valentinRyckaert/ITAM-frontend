@@ -72,7 +72,7 @@ $button-color: #fff;
     transition: background-color 0.3s;
 
     &:hover {
-      background-color: darken($button-background, 10%);
+      background-color: color.adjust($color, $lightness: -10%);
     }
   }
 }
