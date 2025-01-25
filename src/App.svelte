@@ -1,11 +1,11 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import Header from './lib/Header.svelte'
-  import LoginForm from './lib/LoginForm.svelte'
-  import DataTable from './lib/DataTable.svelte'
+  import Header from './lib/views/layout/Header.svelte'
+  import LoginForm from './lib/components/LoginForm.svelte'
+  import Home from './lib/views/Home.svelte';
 
   let isLogged: boolean
-
+  let activePage: string = "Home"
 
   onMount(async () => {
     isLogged = localStorage.getItem('authToken') !== null
@@ -17,11 +17,12 @@
   <Header bind:isLogged={isLogged}/>
   <main>
     {#if !isLogged}
-      <h2>Connectez-vous pour utiliser l'application</h2>
+      <h2>Log in</h2>
       <LoginForm bind:isLogged={isLogged}/>
     {:else}
-      <h2>Bienvenue sur notre page d'accueil !</h2>
-      <DataTable dataName="devices" dataHeaders={['#','name', 'os supported','group']}/>
+      {#if activePage === "Home"}
+        <Home/>
+      {/if}
     {/if}
   </main>
 </div>

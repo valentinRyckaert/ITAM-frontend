@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getAllFromDB } from "../api/data";
+    import { getAllFromDB } from "../../api/data";
 
     let data: any[] = $state([])
     let props = $props()
