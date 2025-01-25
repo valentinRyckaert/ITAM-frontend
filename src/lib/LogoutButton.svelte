@@ -11,5 +11,5 @@
 </script>
 
 <div>
-    <a onclick="{logoutFromAPI}">Logout</a>
+    <div onclick="{logoutFromAPI}">Logout</div>
 </div>

@@ -23,7 +23,7 @@
 
     #navbar {
         list-style-type: none;
-        margin: 0;
+        margin: 0 0 20px 0;
         padding: 0;
         overflow: hidden;
         background-color: #4d8f4f;
@@ -37,6 +37,12 @@
             text-align: center;
             margin: 10px;
             cursor: pointer;
+        }
+
+        ul > li {
+            &:hover {
+                text-decoration: underline;
+            }
         }
 
         li {
