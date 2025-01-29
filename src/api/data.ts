@@ -34,7 +34,7 @@ export async function getOneFromDB(ressourceName: string, ressourceId: number) {
     return await response.json()
 }
 
-export async function postData(ressourceName:string, newRessource:Object) {
+export async function postData(ressourceName:string, newRessource:object) {
     const response = await fetch(URI + `${ressourceName}/`, {
         method: "POST",
         headers: {
@@ -42,14 +42,13 @@ export async function postData(ressourceName:string, newRessource:Object) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         },
-        body: newRessource.toString()
+        body: JSON.stringify(newRessource)
     })
     if (!response.ok) {
         const errorData = await response.json()
         throw new Error(JSON.stringify(errorData))
     }
     const data = await response.json()
-    localStorage.setItem('authToken', data.access_token)
     return data
 }
 
@@ -68,7 +67,6 @@ export async function putData(ressourceName:string, ressourceId: number, updated
         throw new Error(JSON.stringify(errorData))
     }
     const data = await response.json()
-    localStorage.setItem('authToken', data.access_token)
     return data
 }
 
@@ -86,6 +84,5 @@ export async function deleteData(ressourceName: string, ressourceId: number) {
         throw new Error(JSON.stringify(errorData))
     }
     const data = await response.json()
-    localStorage.setItem('authToken', data.access_token)
     return data
 }

@@ -1,5 +1,14 @@
-<script>
+<script lang="ts">
     import DataTable from '../components/DataTable.svelte'
+  import PostModal from '../components/modals/PostModal.svelte';
+
+    let showModal = $state(false)
+    let dataForModal = $state({})
+
+    function activatePostModal(element: object) {
+      dataForModal = element
+      showModal = true
+    }
 </script>
 
 <div class="container">
@@ -16,11 +25,17 @@
 
   
     <h2>Groupes d'Actifs</h2>
+
+    <button onclick={() => activatePostModal({
+      DG_id: ['id','number'],
+      DG_libelle: ['libellé','string']
+    })}>create</button>
+
     <DataTable dataName="devicegroups" config={{
       DG_id: '#',
       DG_libelle: 'libellé',
     }}/>
-    
+    <PostModal bind:showModal={showModal} dataName="devicegroups" objectToSend={dataForModal}/>
 </div>
 
 <style lang="scss">
@@ -32,7 +47,7 @@
       color: #2c3e50;
     }
 
-    .button {
+    button {
       background-color: #333;
       color: white;
       border: none;
