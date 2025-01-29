@@ -12,7 +12,7 @@
 </script>
 
 <h2>Welcome {currentUsername}</h2>
-<DataTable dataName="devices" dataHeaders={['#','name', 'os supported','group']}/>
+<DataTable dataName="devices" dataHeaders={['#','name','os supported','group']}/>
 
 <style lang="scss">
     h2 {

@@ -1,6 +1,8 @@
 <script lang="ts">
     import { getAllFromDB } from "../../api/data";
-
+    import GetModal from '../components/modals/GetModal.svelte';
+    
+    let showModal = $state(false);
     let data: any[] = $state([])
     let props = $props()
 
@@ -8,6 +10,10 @@
         data = await getAllFromDB(props.dataName)
     }
 
+  function activateModal(id: number) {
+    showModal = true
+    return id
+  }
 </script>
 
 {#await getData()}
@@ -31,6 +37,7 @@
             {/each}
         </tbody>
     </table>
+    <GetModal bind:showModal/>
 {/await}
 
 
