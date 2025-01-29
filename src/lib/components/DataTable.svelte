@@ -1,14 +1,26 @@
 <script lang="ts">
-    import { getAllFromDB } from "../../api/data";
-    import GetModal from '../components/modals/GetModal.svelte';
-    
-    let showModal = $state(false);
-    let data: any[] = $state([])
-    let props = $props()
+  import { getAllFromDB } from "../../api/data"
+  import GetModal from '../components/modals/GetModal.svelte'
+  
+  let showModal = $state(false)
+  let data: any[] = $state([])
+  let props = $props()
 
-    async function getData() {
-        data = await getAllFromDB(props.dataName)
+  function sortObjectByAnother(objToSort, referenceObj) {
+    return Object.keys(referenceObj).reduce((acc, key) => {
+        if (key in objToSort) {
+            acc[key] = objToSort[key]
+        }
+        return acc
+    }, {})
+  }
+
+  async function getData() {
+    data = await getAllFromDB(props.dataName)
+    for(let i=0;i<data.length;i++) {
+      data[i] = sortObjectByAnother(data[i], props.config)
     }
+  }
 
   function activateModal(id: number) {
     showModal = true
@@ -22,7 +34,7 @@
     <table>
         <thead>
         <tr>
-            {#each props.dataHeaders as header}
+            {#each Object.values(props.config) as header}
                     <th>{header}</th>
             {/each}
         </tr>
@@ -37,7 +49,6 @@
             {/each}
         </tbody>
     </table>
-    <GetModal bind:showModal/>
 {/await}
 
 

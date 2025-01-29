@@ -2,7 +2,7 @@
     import DataTable from '../components/DataTable.svelte'
 
     import GetModal from '../components/modals/GetModal.svelte';
-    let showModal = $state(false);
+    let showModal = $state(false)
 
 </script>
 
@@ -11,11 +11,20 @@
     
     
     <h2>Actifs</h2>
-    <DataTable dataName="devices" dataHeaders={['#','name', 'os supported','group']}/>
+    <DataTable dataName="devices" config={{
+      DEV_id: '#',
+      DEV_name: 'name',
+      DEV_os: 'os',
+      DG_id: 'group id'
+    }}/>
 
   
     <h2>Groupes d'Actifs</h2>
-    <DataTable dataName="devicegroups" dataHeaders={['#', 'libellé']}/>
+    <DataTable dataName="devicegroups" config={{
+      DG_id: '#',
+      DG_libelle: 'libellé',
+    }}/>
+    
 </div>
 
 <style lang="scss">
