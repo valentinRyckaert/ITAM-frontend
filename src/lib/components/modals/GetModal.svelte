@@ -1,25 +1,33 @@
 <script>
-	let { showModal = $bindable() } = $props()
+	let { showModal = $bindable(), objectToDisplay } = $props()
 
 	let dialog = $state()
 
 	$effect(() => {
 		if (showModal) dialog.showModal()
-	});
+	})
 </script>
 
+<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <dialog
 	bind:this={dialog}
 	onclose={() => (showModal = false)}
 	onclick={(e) => { if (e.target === dialog) dialog.close() }}
 >
-	
+	<div>
+		{#each Object.entries(objectToDisplay) as [key, value]}
+			<p>{key} : {value}</p>
+		{/each}
+		<hr />
+		<!-- svelte-ignore a11y_autofocus -->
+		<button autofocus onclick={() => dialog.close()}>close modal</button>
+	</div>
 </dialog>
 
 <style>
 	dialog {
 		max-width: 32em;
-		border-radius: 0.2em;
+		border-radius: 5px;
 		border: none;
 		padding: 0;
 	}

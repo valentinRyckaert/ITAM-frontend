@@ -3,6 +3,8 @@
   import GetModal from '../components/modals/GetModal.svelte'
   
   let showModal = $state(false)
+  let dataForModal = $state({})
+
   let data: any[] = $state([])
   let props = $props()
 
@@ -22,9 +24,9 @@
     }
   }
 
-  function activateModal(id: number) {
+  function activateModal(element: Object) {
+    dataForModal = element
     showModal = true
-    return id
   }
 </script>
 
@@ -37,6 +39,7 @@
             {#each Object.values(props.config) as header}
                     <th>{header}</th>
             {/each}
+            <th></th>
         </tr>
         </thead>
         <tbody> 
@@ -45,10 +48,12 @@
                     {#each Object.values(element) as value}
                         <td>{value}</td>
                     {/each}
+                    <td><button onclick={() => activateModal(element)}>show</button></td>
                 </tr>
             {/each}
         </tbody>
     </table>
+    <GetModal bind:showModal={showModal} objectToDisplay={dataForModal}/>
 {/await}
 
 

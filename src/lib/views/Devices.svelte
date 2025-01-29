@@ -1,9 +1,5 @@
 <script>
     import DataTable from '../components/DataTable.svelte'
-
-    import GetModal from '../components/modals/GetModal.svelte';
-    let showModal = $state(false)
-
 </script>
 
 <div class="container">
