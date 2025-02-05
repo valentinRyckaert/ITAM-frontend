@@ -1,5 +1,5 @@
 <script>
-    import { logout } from '../../api/auth'
+    import { logout } from '../../../api/auth'
 
     let { isLogged = $bindable() } = $props()
 

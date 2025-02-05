@@ -60,7 +60,7 @@ export async function putData(ressourceName:string, ressourceId: number, updated
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         },
-        body: updatedRessource.toString()
+        body: JSON.stringify(updatedRessource)
     })
     if (!response.ok) {
         const errorData = await response.json()

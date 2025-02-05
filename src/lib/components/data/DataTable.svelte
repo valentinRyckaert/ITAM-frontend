@@ -1,20 +1,17 @@
 <script lang="ts">
-  import { getAllFromDB } from "../../api/data"
-  import GetModal from '../components/modals/GetModal.svelte'
+  import { getAllFromDB } from "../../../api/data"
+  import GetModal from './modals/GetModal.svelte'
   import DeleteModal from "./modals/DeleteModal.svelte";
   import PutModal from "./modals/PutModal.svelte";
+  import PostModal from './modals/PostModal.svelte'
   
   let showModal = $state(false)
-  let updateModal = $state(false)
-  let deleteModal = $state(false)
+  let modalType = $state('')
   let dataForModal = $state({})
 
   let data: any[] = $state([])
   let props = $props()
 
-  $effect(() => {
-		if (!showModal) getData()
-	})
 
   function sortObjectByAnother(objToSort, referenceObj) {
     return Object.keys(referenceObj).reduce((acc, key) => {
@@ -28,33 +25,31 @@
   async function getData() {
     data = await getAllFromDB(props.dataName)
     for(let i=0;i<data.length;i++) {
-      data[i] = sortObjectByAnother(data[i], props.config)
+      data[i] = sortObjectByAnother(data[i], props.tableHeaders)
     }
   }
 
-  function activateShowModal(element: Object) {
+  function activateModal(element: Object, type: string) {
     dataForModal = element
+    modalType = type
     showModal = true
   }
 
-  function activateUpdateModal(element: Object) {
+  function activatePostModal(element: object) {
     dataForModal = element
-    updateModal = true
-  }
-
-  function activateDeleteModal(element: Object) {
-    dataForModal = element
-    deleteModal = true
+    modalType = 'post'
+    showModal = true
   }
 </script>
 
 {#await getData()}
-        <h1>loading...</h1>
+    <h1>loading...</h1>
 {:then} 
+    <button onclick={() => activatePostModal(props.objectConfig)}>create</button>
     <table>
         <thead>
         <tr>
-            {#each Object.values(props.config) as header}
+            {#each Object.values(props.tableHeaders) as header}
                     <th>{header}</th>
             {/each}
             <th></th>
@@ -67,19 +62,26 @@
                         <td>{value}</td>
                     {/each}
                     <td>
-                      <button onclick={() => activateShowModal(element)}>show</button>
-                      <button onclick={() => activateUpdateModal(element)}>update</button>
-                      <button onclick={() => activateDeleteModal(element)}>delete</button>
+                      <button onclick={() => activateModal(element, 'read')}>show</button>
+                      <button onclick={() => activateModal(element, 'update')}>update</button>
+                      <button onclick={() => activateModal(element, 'delete')}>delete</button>
                     </td>
                 </tr>
             {/each}
         </tbody>
     </table>
-    <GetModal bind:showModal={showModal} objectToDisplay={dataForModal}/>
-    <PutModal bind:showModal={updateModal} dataName={props.dataName} objectToModify={dataForModal}/>
-    <DeleteModal bind:showModal={deleteModal} dataName={props.dataName} objectToDelete={dataForModal}/>
+    {#if showModal}
+        {#if modalType === 'read'}
+            <GetModal bind:showModal={showModal} objectToDisplay={dataForModal}/>
+        {:else if modalType === 'update'}
+            <PutModal bind:showModal={showModal} dataName={props.dataName} objectToModify={dataForModal}/>
+        {:else if modalType === 'delete'}
+            <DeleteModal bind:showModal={showModal} dataName={props.dataName} objectToDelete={dataForModal}/>
+        {:else if modalType === 'post'}
+            <PostModal bind:showModal={showModal} dataName={props.dataName} objectToSend={dataForModal}/>
+        {/if}
+    {/if}
 {/await}
-
 
 <style lang="scss">
     table {

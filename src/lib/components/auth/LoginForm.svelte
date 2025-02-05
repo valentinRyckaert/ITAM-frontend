@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    import { login } from "../../api/auth"
+    import { login } from "../../../api/auth"
 
     let username = $state("")
     let password = $state("")

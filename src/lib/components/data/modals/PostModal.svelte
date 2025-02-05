@@ -1,6 +1,6 @@
 <script>
 
-    import { postData } from "../../../api/data"
+    import { postData } from "../../../../api/data"
 
 	let { showModal = $bindable(), objectToSend, dataName } = $props()
 	let dialog = $state()
@@ -12,6 +12,7 @@
     let data = $state({})
 
     function sendData() {
+		console.log(dataName, data)
         postData(dataName, data)
     }
 </script>

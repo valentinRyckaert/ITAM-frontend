@@ -1,5 +1,5 @@
 <script lang="ts">
-    import LogoutButton from '../../components/LogoutButton.svelte'
+    import LogoutButton from '../../components/auth/LogoutButton.svelte'
 
     let { isLogged = $bindable(), activePage = $bindable() } = $props()
 

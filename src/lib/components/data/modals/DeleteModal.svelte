@@ -1,5 +1,5 @@
 <script>
-  import { deleteData } from "../../../api/data";
+  import { deleteData } from "../../../../api/data";
 
 	let { showModal = $bindable(), dataName, objectToDelete } = $props()
 

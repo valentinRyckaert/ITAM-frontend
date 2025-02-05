@@ -1,72 +1,45 @@
-<script lang="ts">
-    import DataTable from '../components/DataTable.svelte'
-    import PostModal from '../components/modals/PostModal.svelte'
+<script>
+  import ChoiceBox from "../components/ChoiceBox.svelte";
+  import DataTable from "../components/data/DataTable.svelte";
 
-    let showDeviceModal = $state(false)
-    let showGroupModal = $state(false)
-    let dataForModal = $state({})
+  let activeView = $state("devices")
 
-    function activatePostModal(element: object, ressource: string) {
-    	dataForModal = element
-    	if(ressource == 'devices') showDeviceModal = true
-		else showGroupModal = true
-    }
 </script>
 
 <div class="container">
     <h1>Gestion des Actifs</h1>
-    
-    <h2>Actifs</h2>
-    
-	<button onclick={() => activatePostModal({
-		DEV_id: ['id','number'],
-		DEV_name: ['name','string'],
-		DEV_os: ['os', 'string'],
-		DG_id: ['group id', 'number']
-    }, 'devices')}>create</button>
-	
-	<DataTable dataName="devices" config={{
-		DEV_id: '#',
-		DEV_name: 'name',
-		DEV_os: 'os',
-		DG_id: 'group id'
-    }}/>
-	<PostModal bind:showModal={showDeviceModal} dataName="devices" objectToSend={dataForModal}/>
 
-  
-    <h2>Groupes d'Actifs</h2>
+    <ChoiceBox bind:activeButton={activeView} listLabels={['devices','devices groups']} />
 
-    <button onclick={() => activatePostModal({
-		DG_id: ['id','number'],
-		DG_libelle: ['libellé','string']
-    }, 'groups')}>create</button>
-
-    <DataTable dataName="devicegroups" config={{
-		DG_id: '#',
-		DG_libelle: 'libellé',
-    }}/>
-    <PostModal bind:showModal={showGroupModal} dataName="devicegroups" objectToSend={dataForModal}/>
+    {#if activeView === "devices"}
+      <h2>Actifs</h2>
+      <DataTable
+        dataName="devices"
+        objectConfig={{
+          DEV_id: ['id','number'],
+          DEV_name: ['name','string'],
+          DEV_os: ['os', 'string'],
+          DG_id: ['group id', 'number']
+        }}
+        tableHeaders={{
+          DEV_id: '#',
+          DEV_name: 'name',
+          DEV_os: 'os',
+          DG_id: 'group id'
+        }}
+      />
+    {:else}
+      <h2>Groupes d'Actifs</h2>
+      <DataTable
+        dataName="devicegroups"
+        objectConfig={{
+          DG_id: ['id','number'],
+          DG_libelle: ['libellé','string'],
+        }}
+        tableHeaders={{
+          DG_id: '#',
+          DG_libelle: 'libellé',
+        }}
+      />
+    {/if}
 </div>
-
-<style lang="scss">
-    .container {
-      padding: 20px;
-    }
-  
-    h1 {
-      color: #2c3e50;
-    }
-
-    button {
-      background-color: #333;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 15px;
-      cursor: pointer;
-      
-      &:hover {
-        background-color: #2980b9;
-      }
-    }
-</style>

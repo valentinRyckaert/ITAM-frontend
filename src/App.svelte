@@ -1,12 +1,11 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import Header from './lib/views/layout/Header.svelte'
-  import LoginForm from './lib/components/LoginForm.svelte'
+  import LoginForm from './lib/components/auth/LoginForm.svelte'
   import Home from './lib/views/Home.svelte';
   import Footer from './lib/views/layout/Footer.svelte';
   import Devices from './lib/views/Devices.svelte'
   import Packages from './lib/views/Packages.svelte'
-  import Deployement from './lib/views/Deployement.svelte'
   import Users from './lib/views/Users.svelte'
   import Account from './lib/views/Account.svelte'
   import About from './lib/views/About.svelte'
@@ -33,8 +32,6 @@
         <Devices/>
       {:else if activePage === "packages"}
         <Packages/>
-      {:else if activePage === "deployement"}
-        <Deployement/>
       {:else if activePage === "users"}
         <Users/>
       {:else if activePage === "account"}

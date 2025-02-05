@@ -1,6 +1,6 @@
 <script>
 
-    import { putData } from "../../../api/data"
+    import { putData } from "../../../../api/data"
 
 	let { showModal = $bindable(), objectToModify, dataName } = $props()
 	let dialog = $state()
@@ -14,7 +14,7 @@
 	})
 
     function sendData() {
-		putData(dataName, data)
+		putData(dataName, Object.values(data)[0], data)
     }
 </script>
 
