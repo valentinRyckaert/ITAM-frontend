@@ -16,9 +16,6 @@
         <li><a href="#packages" onclick={() => { activePage = "packages" }}>
             Packages
         </a></li>
-        <li><a href="#deployement" onclick={() => { activePage = "deployement" }}>
-            Deployement
-        </a></li>
         <li><a href="#users" onclick={() => { activePage = "users" }}>
             Users
         </a></li>

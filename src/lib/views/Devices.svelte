@@ -7,7 +7,7 @@
 </script>
 
 <div class="container">
-    <h1>Gestion des Actifs</h1>
+    <h1>Devices</h1>
 
     <ChoiceBox bind:activeButton={activeView} listLabels={['devices','devices groups']} />
 
@@ -17,8 +17,8 @@
         dataName="devices"
         objectConfig={{
           DEV_id: ['id','number'],
-          DEV_name: ['name','string'],
-          DEV_os: ['os', 'string'],
+          DEV_name: ['name','text'],
+          DEV_os: ['os', 'text'],
           DG_id: ['group id', 'number']
         }}
         tableHeaders={{
@@ -34,7 +34,7 @@
         dataName="devicegroups"
         objectConfig={{
           DG_id: ['id','number'],
-          DG_libelle: ['libellé','string'],
+          DG_libelle: ['libellé','text'],
         }}
         tableHeaders={{
           DG_id: '#',
