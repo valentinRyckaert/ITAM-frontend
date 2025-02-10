@@ -1,9 +1,10 @@
 <script lang="ts">
   import { getAllFromDB } from "../../../api/data"
   import GetModal from './modals/GetModal.svelte'
-  import DeleteModal from "./modals/DeleteModal.svelte";
-  import PutModal from "./modals/PutModal.svelte";
+  import DeleteModal from "./modals/DeleteModal.svelte"
+  import PutModal from "./modals/PutModal.svelte"
   import PostModal from './modals/PostModal.svelte'
+  import { getCurrentUser } from '../../../api/auth'
   
   let showModal = $state(false)
   let modalType = $state('')
@@ -11,6 +12,7 @@
 
   let data: any[] = $state([])
   let props = $props()
+  let currentUser: any = $state()
 
 
   function sortObjectByAnother(objToSort, referenceObj) {
@@ -27,6 +29,7 @@
     for(let i=0;i<data.length;i++) {
       data[i] = sortObjectByAnother(data[i], props.tableHeaders)
     }
+    currentUser = await getCurrentUser()
   }
 
   function activateModal(element: Object, type: string) {
@@ -63,14 +66,16 @@
                     {/each}
                     <td>
                       <button onclick={() => activateModal(element, 'read')}>show</button>
-                      <button onclick={() => activateModal(element, 'update')}>update</button>
-                      <button onclick={() => activateModal(element, 'delete')}>delete</button>
+                      {#if currentUser.USER_type < 2}
+                        <button onclick={() => activateModal(element, 'update')}>update</button>
+                        <button onclick={() => activateModal(element, 'delete')}>delete</button>
+                      {/if}
                     </td>
                 </tr>
             {/each}
         </tbody>
     </table>
-    {#if showModal}
+    {#if showModal && currentUser.USER_type < 2}
         {#if modalType === 'read'}
             <GetModal bind:showModal={showModal} objectToDisplay={dataForModal}/>
         {:else if modalType === 'update'}

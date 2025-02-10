@@ -1,8 +1,13 @@
 <script lang="ts">
     import LogoutButton from '../../components/auth/LogoutButton.svelte'
+    import { getCurrentUser } from '../../../api/auth'
 
+    let currentUser: any
     let { isLogged = $bindable(), activePage = $bindable() } = $props()
 
+    async function getUser() {
+        currentUser = await getCurrentUser()
+    }
 </script>
 
 <nav id="navbar">
@@ -16,10 +21,15 @@
         <li><a href="#packages" onclick={() => { activePage = "packages" }}>
             Packages
         </a></li>
-        <li><a href="#users" onclick={() => { activePage = "users" }}>
-            Users
-        </a></li>
         {#if isLogged}
+            {#await getUser()}
+            {:then}
+                {#if currentUser.USER_type === 0}
+                    <li><a href="#users" onclick={() => { activePage = "users" }}>
+                        Users
+                    </a></li>
+                {/if}
+            {/await}
             <li class="end"><a href="#account" onclick={() => { activePage = "account" }}>
                 Account
             </a></li>

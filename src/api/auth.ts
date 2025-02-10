@@ -46,5 +46,6 @@ export async function getCurrentUser() {
         throw new Error(JSON.stringify(errorData))
     }
 
-    return await response.json()
+    let data = await response.json()
+    return data
 }
