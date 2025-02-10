@@ -27,7 +27,11 @@
 		<div>
             {#each Object.entries(objectToSend) as [key, value]}
                 <label for="{value[0]}">{value[0]}:</label>
-                <input type="{value[1]}" id="{value[0]}" bind:value={data[key]}/>
+				{#if value[1] === "checkbox"}
+					<input type="checkbox" id="{value[0]}" bind:checked={data[key]}/>
+				{:else}
+					<input type="{value[1]}" id="{value[0]}" bind:value={data[key]}/>
+				{/if}
                 <br>
             {/each}
         </div>

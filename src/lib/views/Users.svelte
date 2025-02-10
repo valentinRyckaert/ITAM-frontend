@@ -8,9 +8,9 @@
     objectConfig={{
         USER_id: ['id','number'],
         USER_username: ['username','text'],
-        USER_passHash: ['password hash', 'text'],
+        USER_passHash: ['password', 'text'],
         USER_type: ['type', 'number'],
-        USER_isActive: ['is active', 'text']
+        USER_isActive: ['is active', 'checkbox']
     }}
     tableHeaders={{
         USER_id: '#',
