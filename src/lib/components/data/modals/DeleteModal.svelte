@@ -10,7 +10,7 @@
 	})
 
     function deleteObject() {
-        deleteData(dataName, Object.values(objectToDelete)[0])
+        deleteData(dataName, Object.values(objectToDelete)[0]).then(() => dialog.close())
     }
 </script>
 
@@ -28,7 +28,7 @@
 		<hr />
 		<!-- svelte-ignore a11y_autofocus -->
 		<button autofocus onclick={() => dialog.close()}>close modal</button>
-        <button onclick={() => {deleteObject(); dialog.close()}}>delete</button>
+        <button onclick={() => deleteObject()}>delete</button>
 	</div>
 </dialog>
 

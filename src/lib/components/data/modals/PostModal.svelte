@@ -12,8 +12,7 @@
     let data = $state({})
 
     function sendData() {
-		console.log(dataName, data)
-        postData(dataName, data)
+        postData(dataName, data).then(() => dialog.close())
     }
 </script>
 
@@ -38,7 +37,7 @@
 		<hr />
 		<!-- svelte-ignore a11y_autofocus -->
 		<button autofocus onclick={() => dialog.close()}>cancel</button>
-        <button onclick={() => {sendData(); dialog.close()}}>create</button>
+        <button onclick={() => sendData()}>create</button>
 	</div>
 </dialog>
 

@@ -32,15 +32,16 @@
     currentUser = await getCurrentUser()
   }
 
-  function activateModal(element: Object, type: string) {
+  $effect(() => {
+    if(!showModal) {
+      console.log(showModal)
+      getData()
+    }
+  })
+
+  function activateModal(element: object, type: string) {
     dataForModal = element
     modalType = type
-    showModal = true
-  }
-
-  function activatePostModal(element: object) {
-    dataForModal = element
-    modalType = 'post'
     showModal = true
   }
 </script>
@@ -48,7 +49,7 @@
 {#await getData()}
     <h1>loading...</h1>
 {:then} 
-    <button onclick={() => activatePostModal(props.objectConfig)}>create</button>
+    <button onclick={() => activateModal(props.objectConfig, 'post')}>create</button>
     <table>
         <thead>
         <tr>
@@ -77,13 +78,13 @@
     </table>
     {#if showModal && currentUser.USER_type < 2}
         {#if modalType === 'read'}
-            <GetModal bind:showModal={showModal} objectToDisplay={dataForModal}/>
+            <GetModal bind:showModal objectToDisplay={dataForModal}/>
         {:else if modalType === 'update'}
-            <PutModal bind:showModal={showModal} dataName={props.dataName} objectToModify={dataForModal}/>
+            <PutModal bind:showModal dataName={props.dataName} objectToModify={dataForModal}/>
         {:else if modalType === 'delete'}
-            <DeleteModal bind:showModal={showModal} dataName={props.dataName} objectToDelete={dataForModal}/>
+            <DeleteModal bind:showModal dataName={props.dataName} objectToDelete={dataForModal}/>
         {:else if modalType === 'post'}
-            <PostModal bind:showModal={showModal} dataName={props.dataName} objectToSend={dataForModal}/>
+            <PostModal bind:showModal dataName={props.dataName} objectToSend={dataForModal}/>
         {/if}
     {/if}
 {/await}

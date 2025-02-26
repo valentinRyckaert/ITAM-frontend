@@ -14,7 +14,7 @@
 	})
 
     function sendData() {
-		putData(dataName, Object.values(data)[0], data)
+		putData(dataName, Object.values(data)[0], data).then(() => dialog.close())
     }
 </script>
 
@@ -35,7 +35,7 @@
 		<hr />
 		<!-- svelte-ignore a11y_autofocus -->
 		<button autofocus onclick={() => dialog.close()}>cancel</button>
-        <button onclick={() => {sendData(); dialog.close()}}>update</button>
+        <button onclick={() => sendData()}>update</button>
 	</div>
 </dialog>
 
