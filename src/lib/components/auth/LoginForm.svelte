@@ -4,15 +4,27 @@
 
     let username = $state("")
     let password = $state("")
+    let loginError: string | null = $state(null)
     let { isLogged = $bindable() } = $props()
 
     function loginToAPI() {
-        login(username, password).then(() => { isLogged = true })
+        login(username, password)
+          .then(() => {
+            isLogged = true
+          })
+		  .catch((error) => {
+			loginError = error
+		  })
     }
 
 </script>
 
 <div class="form">
+
+    {#if loginError}
+      <p class="error">{loginError}</p>
+    {/if}
+
     <label for="username">Username:</label>
     <input type="text" id="username" bind:value={username}/>
 
@@ -24,16 +36,11 @@
 
 <style lang="scss">
 
-$form-background: #f7f9fc;
-$form-border-radius: 8px;
-$label-color: #333;
-$input-border: #ccc;
 $button-background: #4d8f4f;
-$button-color: #fff;
 
 .form {
-  background-color: $form-background;
-  border-radius: $form-border-radius;
+  background-color: #f7f9fc;
+  border-radius: 8px;
   padding: 20px;
   max-width: 400px;
   margin: auto;
@@ -42,14 +49,14 @@ $button-color: #fff;
   label {
     display: block;
     margin-bottom: 8px;
-    color: $label-color;
+    color: #333;
   }
 
   input {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid $input-border;
+    border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
 
@@ -58,13 +65,19 @@ $button-color: #fff;
       outline: none;
       box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
     }
+
+  }
+
+  .error {
+    text-align: center;
+    color: darkred;
   }
 
   button {
     width: 100%;
     padding: 10px;
     background-color: $button-background;
-    color: $button-color;
+    color: #fff;
     border: none;
     border-radius: 4px;
     font-size: 16px;

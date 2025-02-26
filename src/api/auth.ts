@@ -19,7 +19,7 @@ export async function login(username: string, password: string) {
     
     if (!response.ok) {
         const errorData = await response.json()
-        return JSON.stringify(errorData)
+        throw new Error(errorData.detail)
     }
 
     const data = await response.json()
@@ -43,7 +43,7 @@ export async function getCurrentUser() {
 
     if (!response.ok) {
         const errorData = await response.json()
-        throw new Error(JSON.stringify(errorData))
+        throw new Error(errorData.detail)
     }
 
     let data = await response.json()

@@ -1,12 +1,9 @@
 <script lang="ts">
-    import ChoiceBox from "../components/ChoiceBox.svelte";
-    import DataTable from "../components/data/DataTable.svelte";
+    import ChoiceBox from '../components/ChoiceBox.svelte'
+    import DataTable from '../components/data/DataTable.svelte'
+    import { autoUpdate } from '../../api/packages'
   
     let activeView = $state("packages")
-
-    function autoUpdate() {
-        fetch('http://localhost:8000/packages/autoupdate')
-    }
 </script>
   
   <div class="container">

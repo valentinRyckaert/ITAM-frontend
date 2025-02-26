@@ -14,7 +14,7 @@
   let activePage: string = "home"
 
   onMount(async () => {
-    isLogged = localStorage.getItem('authToken') !== null
+    isLogged = !(localStorage.getItem('authToken') === null || localStorage.getItem('authToken') === '')
   })
  
 </script>
