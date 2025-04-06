@@ -19,19 +19,22 @@
           DEV_id: 'id',
           DEV_name: 'name',
           DEV_os: 'os',
-          DG_id: 'group'
+          DG_id: 'device group'
         }}
         createOrUpdateConfig={{
           DEV_id: ['id','number'],
           DEV_name: ['name','text'],
           DEV_os: ['os', 'text'],
-          DG_id: ['group id', 'number']
+          DG_id: ['device group id', 'number']
         }}
         tableHeaders={{
           DEV_id: '#',
           DEV_name: 'name',
           DEV_os: 'os',
-          DG_id: 'group'
+          DG_id: 'device group'
+        }}
+        foreignKeysToShow={{
+          DG_id: 'devicegroups:DG_libelle'
         }}
         canCreate={false}
       />

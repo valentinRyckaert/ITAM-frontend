@@ -14,7 +14,7 @@
       <ChoiceBox bind:activeButton={activeView} listLabels={['packages','package groups']} />
   
       {#if activeView === "packages"}
-        <h2>Actifs</h2>
+        <h2>Packages</h2>
         <DataTable
           dataName="packages"
           showOrDeleteConfig={{
@@ -23,8 +23,8 @@
             PACK_type: 'os',
             PACK_os_supported: 'group id',
             DEV_id: 'device id',
-            DG_id: 'device group id',
-            PG_id: 'package group id'
+            DG_id: 'device group',
+            PG_id: 'package group'
           }}
           createOrUpdateConfig={{
             PACK_id: ['id','number'],
@@ -43,6 +43,11 @@
             DEV_id: 'for which device',
             DG_id: 'for which device group',
             PG_id: 'package group'
+          }}
+          foreignKeysToShow={{
+            DEV_id: 'devices:DEV_name',
+            DG_id: 'devicegroups:DG_libelle',
+            PG_id: 'packagegroups:PG_libelle'
           }}
         />
       {:else}

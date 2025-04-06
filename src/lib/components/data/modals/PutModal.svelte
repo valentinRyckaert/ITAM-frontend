@@ -15,7 +15,11 @@
 	})
 
     function sendData() {
-        putData(dataName, Object.values(data)[0], data).then(() => dialog.close())
+		let objectToSend = {}
+		Object.keys(objectConfig).forEach((key) => {
+			objectToSend[key] = JSON.parse(JSON.stringify(data[objectConfig[key][0]][0]))
+		})
+        putData(dataName, Object.values(objectToSend)[0], objectToSend).then(() => {showModal = false})
     }
 </script>
 
@@ -40,7 +44,7 @@
 		<hr />
 		<!-- svelte-ignore a11y_autofocus -->
 		<button autofocus onclick={() => dialog.close()}>cancel</button>
-        <button onclick={() => sendData()}>create</button>
+        <button onclick={() => sendData()}>update</button>
 	</div>
 </dialog>
 
