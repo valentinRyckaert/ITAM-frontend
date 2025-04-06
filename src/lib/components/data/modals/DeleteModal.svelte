@@ -1,12 +1,17 @@
 <script>
   import { deleteData } from "../../../../api/data";
 
-	let { showModal = $bindable(), dataName, objectToDelete } = $props()
+	let { showModal = $bindable(), dataName, objectToDelete, objectConfig } = $props()
 
 	let dialog = $state()
+	let data = $state({})
 
 	$effect(() => {
-		if (showModal) dialog.showModal()
+		if (showModal)
+			Object.keys(objectConfig).forEach((key) => {
+				data[objectConfig[key]] = objectToDelete[key]
+			})
+			dialog.showModal()
 	})
 
     function deleteObject() {
@@ -22,7 +27,7 @@
 >
 	<div>
         <h5>Do you want to delete this object ?</h5>
-		{#each Object.entries(objectToDelete) as [key, value]}
+		{#each Object.entries(data) as [key, value]}
 			<p>{key} : {value}</p>
 		{/each}
 		<hr />

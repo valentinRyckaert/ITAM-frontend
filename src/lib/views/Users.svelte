@@ -6,10 +6,10 @@
 <DataTable
     dataName="users"
     showOrDeleteConfig={{
-        USER_id: ['id','number'],
-        USER_username: ['username','text'],
-        USER_type: ['type', 'number'],
-        USER_isActive: ['is active', 'checkbox']
+        USER_id: 'id',
+        USER_username: 'username',
+        USER_type: 'type',
+        USER_isActive: 'is active'
     }}
     createOrUpdateConfig={{
         USER_id: ['id','number'],

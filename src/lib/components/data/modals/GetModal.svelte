@@ -1,10 +1,15 @@
 <script>
-	let { showModal = $bindable(), objectToDisplay } = $props()
+	let { showModal = $bindable(), objectToDisplay, objectConfig } = $props()
 
 	let dialog = $state()
+	let data = $state({})
 
 	$effect(() => {
-		if (showModal) dialog.showModal()
+		if (showModal)
+			Object.keys(objectConfig).forEach((key) => {
+				data[objectConfig[key]] = objectToDisplay[key]
+			})
+			dialog.showModal()
 	})
 </script>
 
@@ -15,7 +20,7 @@
 	onclick={(e) => { if (e.target === dialog) dialog.close() }}
 >
 	<div>
-		{#each Object.entries(objectToDisplay) as [key, value]}
+		{#each Object.entries(data) as [key, value]}
 			<p>{key} : {value}</p>
 		{/each}
 		<hr />

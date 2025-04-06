@@ -18,13 +18,13 @@
         <DataTable
           dataName="packages"
           showOrDeleteConfig={{
-            PACK_id: ['id','number'],
-            PACK_name: ['name','text'],
-            PACK_type: ['os', 'text'],
-            PACK_os_supported: ['group id', 'number'],
-            DEV_id: ['device id', 'number'],
-            DG_id: ['device group id', 'number'],
-            PG_id: ['package group id', 'number']
+            PACK_id: 'id',
+            PACK_name: 'name',
+            PACK_type: 'os',
+            PACK_os_supported: 'group id',
+            DEV_id: 'device id',
+            DG_id: 'device group id',
+            PG_id: 'package group id'
           }}
           createOrUpdateConfig={{
             PACK_id: ['id','number'],
@@ -50,8 +50,8 @@
         <DataTable
           dataName="packagegroups"
           showOrDeleteConfig={{
-            PG_id: ['id','number'],
-            PG_libelle: ['libellé','text'],
+            PG_id: 'id',
+            PG_libelle: 'libellé',
           }}
           createOrUpdateConfig={{
             PG_id: ['id','number'],

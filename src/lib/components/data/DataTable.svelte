@@ -41,13 +41,7 @@
     }
   })
 
-  function activateModal(element: object, type: string) {
-    dataForModal = element
-    modalType = type
-    showModal = true
-  }
-
-  function activateUpdateModal(element: object, data: object, type: string) {
+  function activateModal(element: object, data: object, type: string) {
     dataForModal = [element, data]
     modalType = type
     showModal = true
@@ -58,7 +52,7 @@
     <h1>loading...</h1>
 {:then} 
   {#if canCreate}
-    <button onclick={() => activateModal(createOrUpdateConfig, 'post')}>create</button>
+    <button onclick={() => activateModal(createOrUpdateConfig, {}, 'post')}>create</button>
   {/if}
     <table>
         <thead>
@@ -76,10 +70,10 @@
                         <td>{value}</td>
                     {/each}
                     <td>
-                      <button onclick={() => activateModal(element, 'read')}>show</button>
+                      <button onclick={() => activateModal(showOrDeleteConfig, data[i], 'read')}>show</button>
                       {#if currentUser.USER_type < 2}
-                        <button onclick={() => activateUpdateModal(createOrUpdateConfig, data[i], 'update')}>update</button>
-                        <button onclick={() => activateModal(element, 'delete')}>delete</button>
+                        <button onclick={() => activateModal(createOrUpdateConfig, data[i], 'update')}>update</button>
+                        <button onclick={() => activateModal(showOrDeleteConfig, data[i], 'delete')}>delete</button>
                       {/if}
                     </td>
                 </tr>
@@ -88,13 +82,13 @@
     </table>
     {#if showModal && currentUser.USER_type < 2}
         {#if modalType === 'read'}
-            <GetModal bind:showModal objectToDisplay={dataForModal}/>
+            <GetModal bind:showModal objectToDisplay={dataForModal[1]} objectConfig={dataForModal[0]}/>
         {:else if modalType === 'update'}
             <PutModal bind:showModal dataName={dataName} objectToModify={dataForModal[1]} objectConfig={dataForModal[0]}/>
         {:else if modalType === 'delete'}
-            <DeleteModal bind:showModal dataName={dataName} objectToDelete={dataForModal}/>
+            <DeleteModal bind:showModal dataName={dataName} objectToDelete={dataForModal[1]} objectConfig={dataForModal[0]}/>
         {:else if modalType === 'post' && canCreate}
-            <PostModal bind:showModal dataName={dataName} objectToSend={dataForModal}/>
+            <PostModal bind:showModal dataName={dataName} objectToSend={dataForModal[1]}/>
         {/if}
     {/if}
 {/await}

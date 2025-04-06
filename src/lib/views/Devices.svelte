@@ -16,10 +16,10 @@
       <DataTable
         dataName="devices"
         showOrDeleteConfig={{
-          DEV_id: ['id','number'],
-          DEV_name: ['name','text'],
-          DEV_os: ['os', 'text'],
-          DG_id: ['group id', 'number']
+          DEV_id: 'id',
+          DEV_name: 'name',
+          DEV_os: 'os',
+          DG_id: 'group'
         }}
         createOrUpdateConfig={{
           DEV_id: ['id','number'],
@@ -31,7 +31,7 @@
           DEV_id: '#',
           DEV_name: 'name',
           DEV_os: 'os',
-          DG_id: 'group id'
+          DG_id: 'group'
         }}
         canCreate={false}
       />
@@ -40,8 +40,8 @@
       <DataTable
         dataName="devicegroups"
         showOrDeleteConfig={{
-          DG_id: ['id','number'],
-          DG_libelle: ['libellé','text'],
+          DG_id: 'id',
+          DG_libelle: 'libellé',
         }}
         createOrUpdateConfig={{
           DG_id: ['id','number'],
