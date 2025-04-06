@@ -11,30 +11,32 @@
   let dataForModal = $state({})
 
   let data: any[] = $state([])
-  let props = $props()
+  let sortedData: any[] = $state([])
+
+  let {
+    canCreate = true,
+    tableHeaders,
+    dataName,
+    showOrDeleteConfig,
+    createOrUpdateConfig
+  }: any = $props()
   let currentUser: any = $state()
-
-
-  function sortObjectByAnother(objToSort, referenceObj) {
-    return Object.keys(referenceObj).reduce((acc, key) => {
-        if (key in objToSort) {
-            acc[key] = objToSort[key]
+  
+  async function getData() {
+    data = await getAllFromDB(dataName)
+    for(let i=0;i<data.length;i++) {
+      sortedData[i] = Object.keys(tableHeaders).reduce((acc, key) => {
+        if (key in data[i]) {
+            acc[key] = data[i][key]
         }
         return acc
-    }, {})
-  }
-
-  async function getData() {
-    data = await getAllFromDB(props.dataName)
-    for(let i=0;i<data.length;i++) {
-      data[i] = sortObjectByAnother(data[i], props.tableHeaders)
+      }, {})
     }
     currentUser = await getCurrentUser()
   }
 
   $effect(() => {
     if(!showModal) {
-      console.log(showModal)
       getData()
     }
   })
@@ -44,23 +46,31 @@
     modalType = type
     showModal = true
   }
+
+  function activateUpdateModal(element: object, data: object, type: string) {
+    dataForModal = [element, data]
+    modalType = type
+    showModal = true
+  }
 </script>
 
 {#await getData()}
     <h1>loading...</h1>
 {:then} 
-    <button onclick={() => activateModal(props.objectConfig, 'post')}>create</button>
+  {#if canCreate}
+    <button onclick={() => activateModal(createOrUpdateConfig, 'post')}>create</button>
+  {/if}
     <table>
         <thead>
-        <tr>
-            {#each Object.values(props.tableHeaders) as header}
-                    <th>{header}</th>
-            {/each}
-            <th></th>
-        </tr>
+          <tr>
+              {#each Object.values(tableHeaders) as header}
+                      <th>{header}</th>
+              {/each}
+              <th></th>
+          </tr>
         </thead>
         <tbody> 
-            {#each data as element}
+            {#each sortedData as element, i}
                 <tr>
                     {#each Object.values(element) as value}
                         <td>{value}</td>
@@ -68,7 +78,7 @@
                     <td>
                       <button onclick={() => activateModal(element, 'read')}>show</button>
                       {#if currentUser.USER_type < 2}
-                        <button onclick={() => activateModal(element, 'update')}>update</button>
+                        <button onclick={() => activateUpdateModal(createOrUpdateConfig, data[i], 'update')}>update</button>
                         <button onclick={() => activateModal(element, 'delete')}>delete</button>
                       {/if}
                     </td>
@@ -80,11 +90,11 @@
         {#if modalType === 'read'}
             <GetModal bind:showModal objectToDisplay={dataForModal}/>
         {:else if modalType === 'update'}
-            <PutModal bind:showModal dataName={props.dataName} objectToModify={dataForModal}/>
+            <PutModal bind:showModal dataName={dataName} objectToModify={dataForModal[1]} objectConfig={dataForModal[0]}/>
         {:else if modalType === 'delete'}
-            <DeleteModal bind:showModal dataName={props.dataName} objectToDelete={dataForModal}/>
-        {:else if modalType === 'post'}
-            <PostModal bind:showModal dataName={props.dataName} objectToSend={dataForModal}/>
+            <DeleteModal bind:showModal dataName={dataName} objectToDelete={dataForModal}/>
+        {:else if modalType === 'post' && canCreate}
+            <PostModal bind:showModal dataName={dataName} objectToSend={dataForModal}/>
         {/if}
     {/if}
 {/await}

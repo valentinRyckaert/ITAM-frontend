@@ -2,19 +2,20 @@
 
     import { putData } from "../../../../api/data"
 
-	let { showModal = $bindable(), objectToModify, dataName } = $props()
+	let { showModal = $bindable(), objectToModify, objectConfig, dataName } = $props()
 	let dialog = $state()
 	let data = $state({})
 
 	$effect(() => {
-		if (showModal) {
+		if (showModal)
+			Object.keys(objectConfig).forEach((key) => {
+				data[objectConfig[key][0]] = [objectConfig[key][2] !== undefined ? objectConfig[key][2] : objectToModify[key], objectConfig[key][1]]
+			})
 			dialog.showModal()
-			data = objectToModify
-		}
 	})
 
     function sendData() {
-		putData(dataName, Object.values(data)[0], data).then(() => dialog.close())
+        putData(dataName, Object.values(data)[0], data).then(() => dialog.close())
     }
 </script>
 
@@ -26,16 +27,20 @@
 >
 	<div>
 		<div>
-            {#each Object.keys(objectToModify) as key}
+            {#each Object.keys(data) as key}
                 <label for="{key}">{key}:</label>
-                <input type="{key}" id="{key}" bind:value={data[key]}/>
+				{#if data[key][1] === "checkbox"}
+					<input type="checkbox" id="{key}" bind:checked={data[key][0]}/>
+				{:else}
+					<input type="{data[key][1]}" id="{key}" bind:value={data[key][0]}/>
+				{/if}
 				<br>
 		    {/each}
         </div>
 		<hr />
 		<!-- svelte-ignore a11y_autofocus -->
 		<button autofocus onclick={() => dialog.close()}>cancel</button>
-        <button onclick={() => sendData()}>update</button>
+        <button onclick={() => sendData()}>create</button>
 	</div>
 </dialog>
 

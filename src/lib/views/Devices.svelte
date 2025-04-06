@@ -15,7 +15,13 @@
       <h2>Actifs</h2>
       <DataTable
         dataName="devices"
-        objectConfig={{
+        showOrDeleteConfig={{
+          DEV_id: ['id','number'],
+          DEV_name: ['name','text'],
+          DEV_os: ['os', 'text'],
+          DG_id: ['group id', 'number']
+        }}
+        createOrUpdateConfig={{
           DEV_id: ['id','number'],
           DEV_name: ['name','text'],
           DEV_os: ['os', 'text'],
@@ -27,12 +33,17 @@
           DEV_os: 'os',
           DG_id: 'group id'
         }}
+        canCreate={false}
       />
     {:else}
       <h2>Groupes d'Actifs</h2>
       <DataTable
         dataName="devicegroups"
-        objectConfig={{
+        showOrDeleteConfig={{
+          DG_id: ['id','number'],
+          DG_libelle: ['libellé','text'],
+        }}
+        createOrUpdateConfig={{
           DG_id: ['id','number'],
           DG_libelle: ['libellé','text'],
         }}

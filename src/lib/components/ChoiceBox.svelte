@@ -1,5 +1,8 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
     let { listLabels, activeButton = $bindable() }: any = $props()
+
 </script>
 
 <div class="container">

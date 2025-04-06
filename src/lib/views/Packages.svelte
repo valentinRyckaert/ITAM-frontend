@@ -17,7 +17,16 @@
         <h2>Actifs</h2>
         <DataTable
           dataName="packages"
-          objectConfig={{
+          showOrDeleteConfig={{
+            PACK_id: ['id','number'],
+            PACK_name: ['name','text'],
+            PACK_type: ['os', 'text'],
+            PACK_os_supported: ['group id', 'number'],
+            DEV_id: ['device id', 'number'],
+            DG_id: ['device group id', 'number'],
+            PG_id: ['package group id', 'number']
+          }}
+          createOrUpdateConfig={{
             PACK_id: ['id','number'],
             PACK_name: ['name','text'],
             PACK_type: ['os', 'text'],
@@ -40,7 +49,11 @@
         <h2>Groupes d'Actifs</h2>
         <DataTable
           dataName="packagegroups"
-          objectConfig={{
+          showOrDeleteConfig={{
+            PG_id: ['id','number'],
+            PG_libelle: ['libellé','text'],
+          }}
+          createOrUpdateConfig={{
             PG_id: ['id','number'],
             PG_libelle: ['libellé','text'],
           }}
