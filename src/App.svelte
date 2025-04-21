@@ -10,8 +10,9 @@
   import Account from './lib/views/Account.svelte'
   import About from './lib/views/About.svelte'
 
-  let isLogged: boolean
-  let activePage: string = "home"
+  let isLogged: boolean = $state(false)
+  let activePage: string = $state("home")
+  let errorLogged: boolean = $state(false)
 
   onMount(async () => {
     isLogged = !(localStorage.getItem('authToken') === null || localStorage.getItem('authToken') === '')
@@ -20,9 +21,12 @@
 </script>
 
 <div>
-  <Header bind:isLogged={isLogged} bind:activePage={activePage}/>
+  <Header bind:isLogged bind:activePage/>
   <main>
     {#if !isLogged}
+      {#if errorLogged}
+        <p style="color: red;">Your token has expired. You have been so disconntected. Please login another time.</p>
+      {/if}
       <h2>Log in</h2>
       <LoginForm bind:isLogged={isLogged}/>
     {:else}

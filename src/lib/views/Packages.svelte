@@ -9,7 +9,7 @@
   <div class="container">
       <h1>Packages</h1>
 
-    <button onclick={autoUpdate}>auto Update</button>
+    <button class="autoupdate" onclick={autoUpdate}>auto Update</button>
   
       <ChoiceBox bind:activeButton={activeView} listLabels={['packages','package groups']} />
   
@@ -69,3 +69,12 @@
         />
       {/if}
   </div>
+
+<style lang="scss">
+  .autoupdate {
+    background-color: rgb(104, 104, 104);
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+</style>
