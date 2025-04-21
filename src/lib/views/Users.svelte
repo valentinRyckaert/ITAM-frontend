@@ -14,7 +14,7 @@
     createOrUpdateConfig={{
         USER_id: ['id','number'],
         USER_username: ['username','text'],
-        USER_passHash: ['new password', 'text', ''],
+        USER_passHash: ['new password', 'password', ''],
         USER_type: ['type', 'number'],
         USER_isActive: ['is active', 'checkbox']
     }}

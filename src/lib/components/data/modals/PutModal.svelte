@@ -9,7 +9,9 @@
 	$effect(() => {
 		if (showModal)
 			Object.keys(objectConfig).forEach((key) => {
-				data[objectConfig[key][0]] = [objectConfig[key][2] !== undefined ? objectConfig[key][2] : objectToModify[key], objectConfig[key][1]]
+				if(objectConfig[key][2] !== null) {
+					data[objectConfig[key][0]] = [objectConfig[key][2] !== undefined ? objectConfig[key][2] : objectToModify[key], objectConfig[key][1]]
+				}
 			})
 			dialog.showModal()
 	})
@@ -17,7 +19,11 @@
     function sendData() {
 		let objectToSend = {}
 		Object.keys(objectConfig).forEach((key) => {
-			objectToSend[key] = JSON.parse(JSON.stringify(data[objectConfig[key][0]][0]))
+			if(data[objectConfig[key][0]] !== undefined) {
+				objectToSend[key] = JSON.parse(JSON.stringify(data[objectConfig[key][0]][0]))
+			} else {
+				objectToSend[key] = JSON.parse(JSON.stringify(objectToModify[key]))
+			}
 		})
         putData(dataName, Object.values(objectToSend)[0], objectToSend).then(() => {showModal = false})
     }
