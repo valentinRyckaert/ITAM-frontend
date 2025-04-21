@@ -36,7 +36,6 @@
         foreignKeysToShow={{
           DG_id: 'devicegroups:DG_libelle'
         }}
-        canCreate={false}
       />
     {:else}
       <h2>Groupes d'Actifs</h2>

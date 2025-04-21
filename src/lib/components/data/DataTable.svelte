@@ -15,7 +15,6 @@
   let sortedData: {[key: string]: string}[] = $state([])
 
   let {
-    canCreate = true,
     tableHeaders,
     dataName,
     showOrDeleteConfig,
@@ -75,13 +74,11 @@
 {#await getData()}
     <h1>loading...</h1>
 {:then} 
-  {#if canCreate}
     <button class="btn btn-create" onclick={() => activateModal(createOrUpdateConfig, {}, 'post')}>
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg icon" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
       </svg>
     </button>
-  {/if}
     <table>
         <thead>
           <tr>
@@ -138,7 +135,7 @@
             <PutModal bind:showModal dataName={dataName} objectToModify={dataForModal[1]} objectConfig={dataForModal[0]}/>
         {:else if modalType === 'delete'}
             <DeleteModal bind:showModal dataName={dataName} objectToDelete={dataForModal[1]} objectConfig={dataForModal[0]}/>
-        {:else if modalType === 'post' && canCreate}
+        {:else if modalType === 'post'}
             <PostModal bind:showModal dataName={dataName} objectToSend={dataForModal[0]}/>
         {/if}
     {/if}
