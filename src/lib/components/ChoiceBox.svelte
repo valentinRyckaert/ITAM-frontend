@@ -1,116 +1,70 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-
+    import { onMount } from "svelte";
+  
     let { listLabels, activeButton = $bindable() }: any = $props()
-
-</script>
-
-<div class="container">
-    {#each listLabels as label}
-        <label><input type="radio" name="e" onclick={() => {activeButton = label}}>{label}</label>
-    {/each}
-</div>
-
-<style lang="scss">
-    .container {
-        --s: 1em;     /* control the size */
-        --g: 10px;    /* the gap */
-        --c: #009688; /* the active color */
-        
-        display: grid;
-        grid-auto-rows: 1fr;
-        gap: var(--g);
-        position: relative;
-    }
-
-    .container:before {
-        content:"";
-        position: absolute;
-        height: calc(var(--s)/2);
-        left: calc(var(--s)/4 + var(--_x,0px));
-        top: calc(var(--s)/4);
-        background: var(--c);
-        border-radius: 50%;
-        aspect-ratio: 1;
-        transition: .4s,left cubic-bezier(.1,-2000,.7,-2000) .4s;
-    }
-
-    label {
-        display: inline-flex;
-        line-height: var(--s);
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-    }
-
-    input {
-        height: var(--s);
-        aspect-ratio: 1;
-        border: calc(var(--s)/8) solid var(--_c,#939393);
-        border-radius: 50%;
-        outline-offset: calc(var(--s)/10);
-        padding: calc(var(--s)/8);
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        cursor: pointer;
-        font-size: inherit;
-        margin: 0;
-        transition: .3s;
-    }
-
-    input:checked {
-        --_c: var(--c);
-    }
-
-    .container:not(:has(input:checked)):before {
-        --_i: -1;
-        opacity: 0;
-    }
-
-    .container:has(input:checked):before {
-        opacity: 1;
-        transform: translateY(calc(var(--_i)*(var(--s) + var(--g))))
-    }
-    .container:has(label:nth-child(1) input:checked):before {--_i:0;--_x:.02px}
-    .container:has(label:nth-child(2) input:checked):before {--_i:1;--_x:.04px}
-    .container:has(label:nth-child(3) input:checked):before {--_i:2;--_x:.06px}
-    .container:has(label:nth-child(4) input:checked):before {--_i:3;--_x:.08px}
-    .container:has(label:nth-child(5) input:checked):before {--_i:4;--_x:.1px}
-
-    input:disabled {
-        background: 
-            linear-gradient(#939393 0 0) 
-            50%/100% 20% no-repeat content-box;
-        opacity: .5;
-        cursor: not-allowed;
-    }
-
-    @media print {
-        input[type=radio] {
-            -webkit-appearance: auto;
-            -moz-appearance: auto;
-            appearance: auto;
-            background: none;
-        }
-    }
-
-    @supports not selector(:has(*)) {
-        .container:before {
-            display: none;
-        }
-        input:checked {
-            --_c: var(--c);
-            background: var(--c) content-box;
-        }
-    }
-
-    body {
-        margin:0;
-        min-height:100vh;
-        display: grid;
-        place-content: center;
-        font-family: system-ui, sans-serif;
-        font-size: 40px;
-    }
-</style>
+  </script>
+  
+  <div class="container">
+      {#each listLabels as label}
+          <label class="radio-label">
+              <input type="radio" name="e" class="radio-input" onclick={() => { activeButton = label }} />
+              <span class="radio-custom"></span>
+              {label}
+          </label>
+      {/each}
+  </div>
+  
+  <style lang="scss">
+  .container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em; // Espace entre les boutons radio
+  }
+  
+  .radio-label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      font-size: 1em;
+      color: #333;
+  
+      // Ajout d'un effet au survol
+      &:hover {
+          color: #2c3e50; // Couleur au survol
+      }
+  }
+  
+  .radio-input {
+      display: none; // Masquer l'input radio par défaut
+  }
+  
+  .radio-custom {
+      width: 1.2em;
+      height: 1.2em;
+      border: 2px solid #2c3e50; // Couleur de la bordure
+      border-radius: 50%; // Forme ronde
+      position: relative;
+      margin-right: 0.5em; // Espace entre le bouton et le label
+      transition: background-color 0.3s ease;
+  
+      // État actif
+      &::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 0.6em;
+          height: 0.6em;
+          background-color: #2c3e50; // Couleur de l'élément actif
+          border-radius: 50%;
+          transform: translate(-50%, -50%) scale(0); // Masqué par défaut
+          transition: transform 0.3s ease;
+      }
+  }
+  
+  // Afficher l'élément actif
+  .radio-input:checked + .radio-custom::after {
+      transform: translate(-50%, -50%) scale(1); // Afficher l'élément actif
+  }
+  </style>
+  
