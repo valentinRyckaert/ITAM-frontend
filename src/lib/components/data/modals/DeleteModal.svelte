@@ -1,24 +1,26 @@
 <script>
-	import { deleteData } from "../../../../api/data";
+ 	import { onMount } from "svelte"
+	import { deleteData } from "../../../../api/data"
   
-	  let { showModal = $bindable(), dataName, objectToDelete, objectConfig } = $props()
-  
-	  let dialog = $state()
-	  let data = $state({})
-  
-	  $effect(() => {
-		  if (showModal) {
-			  Object.keys(objectConfig).forEach((key) => {
-				  data[objectConfig[key]] = objectToDelete[key]
-			  })
-			  dialog.showModal()
-		  }
-	  })
-  
-	  function deleteObject() {
-		  deleteData(dataName, Object.values(objectToDelete)[0]).then(() => dialog.close())
-	  }
-  </script>
+	let { showModal = $bindable(), reloadKey = $bindable(), dataName, objectToDelete, objectConfig } = $props()
+
+	let dialog = $state()
+	let data = $state({})
+
+	$effect(() => {
+		if (showModal) dialog.showModal()
+	})
+
+	function deleteObject() {
+		deleteData(dataName, Object.values(data)[0]).then(() => { dialog.close(); reloadKey = {} })
+	}
+
+	onMount(() => {
+		Object.keys(objectConfig).forEach((key) => {
+			data[objectConfig[key]] = objectToDelete[key]
+		})
+	})
+</script>
   
   <dialog
 	  bind:this={dialog}

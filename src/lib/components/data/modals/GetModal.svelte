@@ -1,16 +1,19 @@
 <script>
+  	import { onMount } from "svelte"
+
 	let { showModal = $bindable(), objectToDisplay, objectConfig } = $props()
 
 	let dialog = $state()
 	let data = $state({})
 
 	$effect(() => {
-		if (showModal) {
-			Object.keys(objectConfig).forEach((key) => {
-				data[objectConfig[key]] = objectToDisplay[key]
-			})
-			dialog.showModal()
-		}
+		if (showModal) dialog.showModal()
+	})
+
+	onMount(() => {
+		Object.keys(objectConfig).forEach((key) => {
+			data[objectConfig[key]] = objectToDisplay[key]
+		})
 	})
 </script>
 

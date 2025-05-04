@@ -1,19 +1,14 @@
 <script>
+  	import { onMount } from "svelte"
     import { putData } from "../../../../api/data"
 
-	let { showModal = $bindable(), objectToModify, objectConfig, dataName } = $props()
+	let { showModal = $bindable(), reloadKey = $bindable(), dataName, objectToModify, objectConfig } = $props()
+
 	let dialog = $state()
 	let data = $state({})
 
 	$effect(() => {
-		if (showModal) {
-			Object.keys(objectConfig).forEach((key) => {
-				if (objectConfig[key][2] !== null) {
-					data[objectConfig[key][0]] = [objectConfig[key][2] !== undefined ? objectConfig[key][2] : objectToModify[key], objectConfig[key][1]]
-				}
-			})
-			dialog.showModal()
-		}
+		if (showModal) dialog.showModal()
 	})
 
     function sendData() {
@@ -25,8 +20,17 @@
 				objectToSend[key] = JSON.parse(JSON.stringify(objectToModify[key]))
 			}
 		})
-        putData(dataName, Object.values(objectToSend)[0], objectToSend).then(() => { showModal = false })
+        putData(dataName, Object.values(data)[0][0], objectToSend).then(() => { dialog.close(); reloadKey = {} })
     }
+
+	onMount(() => {
+		Object.keys(objectConfig).forEach((key) => {
+			if (objectConfig[key][2] !== null) {
+				data[objectConfig[key][0]] = [objectConfig[key][2] !== undefined ? objectConfig[key][2] : objectToModify[key], objectConfig[key][1]]
+			}
+		})
+		console.log(data)
+	})
 </script>
 
 <dialog

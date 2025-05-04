@@ -1,7 +1,7 @@
 <script lang="ts">
     import LogoutButton from '../../components/auth/LogoutButton.svelte'
     import { getCurrentUser } from '../../../api/auth'
-  import { onMount } from 'svelte';
+    import { onMount } from 'svelte'
 
     let currentUser: any
     let { isLogged = $bindable(), activePage = $bindable() } = $props()
@@ -14,6 +14,10 @@
         await getUser().catch((error) => {
             isLogged = false
         })
+    })
+
+    $effect(() => {
+
     })
 </script>
 

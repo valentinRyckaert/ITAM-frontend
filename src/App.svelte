@@ -11,11 +11,16 @@
   import About from './lib/views/About.svelte'
 
   let isLogged: boolean = $state(false)
-  let activePage: string = $state("home")
+  let activePage: string = $state('home')
   let errorLogged: boolean = $state(false)
 
-  onMount(async () => {
+  onMount(() => {
     isLogged = !(localStorage.getItem('authToken') === null || localStorage.getItem('authToken') === '')
+    if(localStorage.getItem('activePage')) activePage = localStorage.getItem('activePage')
+  })
+
+  $effect(() => {
+    localStorage.setItem('activePage', activePage) 
   })
  
 </script>

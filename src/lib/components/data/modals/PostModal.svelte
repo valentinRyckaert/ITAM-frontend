@@ -1,17 +1,17 @@
 <script>
     import { postData } from "../../../../api/data"
 
-	let { showModal = $bindable(), objectToSend, dataName } = $props()
+	let { showModal = $bindable(), reloadKey = $bindable(), dataName, objectToSend } = $props()
+
 	let dialog = $state()
+	let data = $state({})
 
 	$effect(() => {
 		if (showModal) dialog.showModal()
 	})
 
-    let data = $state({})
-
     function sendData() {
-        postData(dataName, data).then(() => dialog.close())
+        postData(dataName, data).then(() => { dialog.close(); reloadKey = {} })
     }
 </script>
 
