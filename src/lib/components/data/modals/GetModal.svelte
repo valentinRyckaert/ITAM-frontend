@@ -1,4 +1,5 @@
 <script>
+// @ts-nocheck
   	import { onMount } from "svelte"
 
 	let { showModal = $bindable(), objectToDisplay, objectConfig } = $props()

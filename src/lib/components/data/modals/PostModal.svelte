@@ -1,9 +1,12 @@
 <script>
+// @ts-nocheck
+
     import { postData } from "../../../../api/data"
 
 	let { showModal = $bindable(), reloadKey = $bindable(), dataName, objectToSend } = $props()
 
 	let dialog = $state()
+	let dialogError = $state("")
 	let data = $state({})
 
 	$effect(() => {
@@ -11,7 +14,11 @@
 	})
 
     function sendData() {
-        postData(dataName, data).then(() => { dialog.close(); reloadKey = {} })
+        postData(dataName, data)
+			.then(() => { dialog.close(); reloadKey = {} })
+			.catch((error) => {
+				dialogError = 'Error: ' + JSON.parse(error.message).detail
+			})
     }
 </script>
 
@@ -21,6 +28,7 @@
 	onclick={(e) => { if (e.target === dialog) dialog.close() }}
 >
 	<div class="modal-content">
+		<p style="color: red;">{dialogError}</p>
 		<div class="form-group">
             {#each Object.entries(objectToSend) as [key, value]}
                 <label for="{value[0]}" class="form-label">{value[0]}:</label>

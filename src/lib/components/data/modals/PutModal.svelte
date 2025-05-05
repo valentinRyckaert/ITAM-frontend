@@ -1,10 +1,13 @@
 <script>
+// @ts-nocheck
+
   	import { onMount } from "svelte"
     import { putData } from "../../../../api/data"
 
 	let { showModal = $bindable(), reloadKey = $bindable(), dataName, objectToModify, objectConfig } = $props()
 
 	let dialog = $state()
+	let dialogError = $state("")
 	let data = $state({})
 
 	$effect(() => {
@@ -21,7 +24,11 @@
 			}
 		})
 		console.log(objectToSend)
-        putData(dataName, Object.values(objectToSend)[0], objectToSend).then(() => { dialog.close(); reloadKey = {} })
+        putData(dataName, Object.values(objectToSend)[0], objectToSend)
+			.then(() => { dialog.close(); reloadKey = {} })
+			.catch((error) => {
+					dialogError = 'Error: ' + JSON.parse(error.message).detail
+				})
     }
 
 	onMount(() => {

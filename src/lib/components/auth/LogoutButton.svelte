@@ -1,4 +1,5 @@
 <script>
+// @ts-nocheck
     import { logout } from '../../../api/auth'
 
     let { isLogged = $bindable() } = $props()

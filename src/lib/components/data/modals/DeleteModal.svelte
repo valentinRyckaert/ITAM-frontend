@@ -1,10 +1,13 @@
 <script>
+// @ts-nocheck
+
  	import { onMount } from "svelte"
 	import { deleteData } from "../../../../api/data"
   
 	let { showModal = $bindable(), reloadKey = $bindable(), dataName, objectToDelete, objectConfig } = $props()
 
 	let dialog = $state()
+	let dialogError = $state("")
 	let data = $state({})
 
 	$effect(() => {
@@ -12,7 +15,11 @@
 	})
 
 	function deleteObject() {
-		deleteData(dataName, Object.values(data)[0]).then(() => { dialog.close(); window.location.reload() })
+		deleteData(dataName, Object.values(data)[0])
+			.then(() => { dialog.close(); window.location.reload() })
+			.catch((error) => {
+					dialogError = 'Error: ' + JSON.parse(error.message).detail
+				})
 	}
 
 	onMount(() => {

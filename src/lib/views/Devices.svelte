@@ -1,4 +1,5 @@
 <script>
+// @ts-nocheck
   import ChoiceBox from "../components/ChoiceBox.svelte";
   import DataTable from "../components/data/DataTable.svelte";
 
