@@ -57,6 +57,8 @@
             DG_id: 'devicegroups:DG_libelle',
             PG_id: 'packagegroups:PG_libelle'
           }}
+          canCreate={false}
+          canDelete={false}
         />
       {:else}
         <h2>Groupes d'Actifs</h2>

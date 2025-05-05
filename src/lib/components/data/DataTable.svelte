@@ -20,6 +20,8 @@
     showOrDeleteConfig,
     createOrUpdateConfig,
     reloadKey = $bindable({}),
+    canCreate = true,
+    canDelete = true,
     foreignKeysToShow = null
   }: any = $props()
 
@@ -74,12 +76,14 @@
 {#key reloadKey}
   {#await getData()}
       <h1>loading...</h1>
-  {:then} 
+  {:then}
+    {#if currentUser.USER_type < 2 && canCreate}
       <button class="btn btn-create" onclick={() => activateModal({}, 'post')}>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg icon" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
         </svg>
       </button>
+    {/if}
       <table>
           <thead>
             <tr>
@@ -117,12 +121,14 @@
                               <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                             </svg>
                           </button>
-                          <button class="btn btn-delete" onclick={() => activateModal(data[i], 'delete')}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash icon" viewBox="0 0 16 16">
-                              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                              <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                            </svg>
-                          </button>
+                          {#if canDelete}
+                            <button class="btn btn-delete" onclick={() => activateModal(data[i], 'delete')}>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash icon" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                              </svg>
+                            </button>
+                          {/if}
                         {/if}
                       </td>
                   </tr>
@@ -134,9 +140,9 @@
               <GetModal bind:showModal objectToDisplay={dataForModal} objectConfig={showOrDeleteConfig}/>
           {:else if modalType === 'update'}
               <PutModal bind:showModal bind:reloadKey dataName={dataName} objectToModify={dataForModal} objectConfig={createOrUpdateConfig}/>
-          {:else if modalType === 'delete'}
+          {:else if modalType === 'delete' && canDelete}
               <DeleteModal bind:showModal bind:reloadKey dataName={dataName} objectToDelete={dataForModal} objectConfig={showOrDeleteConfig}/>
-          {:else if modalType === 'post'}
+          {:else if modalType === 'post' && canCreate}
               <PostModal bind:showModal bind:reloadKey dataName={dataName} objectToSend={createOrUpdateConfig}/>
           {/if}
       {/if}
