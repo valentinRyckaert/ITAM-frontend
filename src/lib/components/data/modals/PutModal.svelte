@@ -20,7 +20,8 @@
 				objectToSend[key] = JSON.parse(JSON.stringify(objectToModify[key]))
 			}
 		})
-        putData(dataName, Object.values(data)[0][0], objectToSend).then(() => { dialog.close(); reloadKey = {} })
+		console.log(objectToSend)
+        putData(dataName, Object.values(objectToSend)[0], objectToSend).then(() => { dialog.close(); reloadKey = {} })
     }
 
 	onMount(() => {
@@ -29,7 +30,6 @@
 				data[objectConfig[key][0]] = [objectConfig[key][2] !== undefined ? objectConfig[key][2] : objectToModify[key], objectConfig[key][1]]
 			}
 		})
-		console.log(data)
 	})
 </script>
 
