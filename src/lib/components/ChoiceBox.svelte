@@ -1,13 +1,11 @@
 <script lang="ts">
-    import { onMount } from "svelte";
-  
     let { listLabels, activeButton = $bindable() }: any = $props()
-  </script>
+</script>
   
   <div class="container">
       {#each listLabels as label}
           <label class="radio-label">
-              <input type="radio" name="e" class="radio-input" onclick={() => { activeButton = label }} />
+              <input type="radio" name="e" class="radio-input" onclick={() => { activeButton = label }} value={label} bind:group={activeButton}/>
               <span class="radio-custom"></span>
               {label}
           </label>
