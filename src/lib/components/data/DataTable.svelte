@@ -10,8 +10,6 @@
   let modalType = $state('')
   let dataForModal = $state({})
 
-  let reloadKey: object = $state({})
-
   let data: any[] = $state([])
   let dataWithFK: any[] = $state([])
   let sortedData: {[key: string]: string}[] = $state([])
@@ -21,6 +19,7 @@
     dataName,
     showOrDeleteConfig,
     createOrUpdateConfig,
+    reloadKey = $bindable({}),
     foreignKeysToShow = null
   }: any = $props()
 
@@ -39,7 +38,7 @@
     data = await getAllFromDB(dataName)
     if(foreignKeysToShow) {
       for(let i=0;i<data.length;i++) {
-        dataWithFK[i] = Object.keys(data[i]).reduce((acc, key) => {
+        dataWithFK[i] = Object.keys(data[i]).reduce((acc: any, key) => {
           if(key in foreignKeysToShow) {
             acc[key] = 'TF:'+foreignKeysToShow[key]+'--'+data[i][key]
           } else {
@@ -53,7 +52,7 @@
     }
 
     for(let i=0;i<data.length;i++) {
-      sortedData[i] = Object.keys(tableHeaders).reduce((acc, key) => {
+      sortedData[i] = Object.keys(tableHeaders).reduce((acc: any, key) => {
         if (key in dataWithFK[i]) {
           acc[key] = dataWithFK[i][key]
         }

@@ -4,18 +4,26 @@
     import { autoUpdate } from '../../api/packages'
   
     let activeView = $state("packages")
+    let reloadKey = $state({})
+    let isLoading = $state(false)
+
+    async function updateData() {
+      isLoading = true
+      await autoUpdate()
+    }
+
 </script>
   
   <div class="container">
       <h1>Packages</h1>
 
-    <button class="autoupdate" onclick={autoUpdate}>auto Update</button>
+    <button class="autoupdate" onclick={async() => await updateData().then(() => {reloadKey = {}; isLoading=false})}>{isLoading ? "loading..." : "auto Update"}</button>
   
       <ChoiceBox bind:activeButton={activeView} listLabels={['packages','package groups']} />
   
       {#if activeView === "packages"}
         <h2>Packages</h2>
-        <DataTable
+        <DataTable bind:reloadKey
           dataName="packages"
           showOrDeleteConfig={{
             PACK_id: 'id',
@@ -75,6 +83,7 @@
     background-color: rgb(104, 104, 104);
     color: white;
     border-radius: 10px;
+    border-color: transparent;
     margin-bottom: 10px;
   }
 </style>
