@@ -12,7 +12,7 @@
 	})
 
 	function deleteObject() {
-		deleteData(dataName, Object.values(data)[0]).then(() => { dialog.close(); reloadKey = {} })
+		deleteData(dataName, Object.values(data)[0]).then(() => { dialog.close(); window.location.reload() })
 	}
 
 	onMount(() => {
