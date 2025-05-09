@@ -3,8 +3,7 @@
     import { getCurrentUser } from '../../../api/auth'
     import { onMount } from 'svelte'
 
-    let currentUser: any
-    let { isLogged = $bindable(), activePage = $bindable() } = $props()
+    let { isLogged = $bindable(), activePage = $bindable(), currentUser = $bindable() } = $props()
 
     async function getUser() {
         currentUser = await getCurrentUser()
@@ -22,7 +21,7 @@
 </script>
 
 <nav id="navbar">
-    <h1><a href="#" onclick={() => { activePage = "home" }}>
+    <h1><a href="#" onclick={() => { activePage = "" }}>
         ITAM
     </a></h1>
     <ul>
@@ -44,7 +43,7 @@
             <li class="end"><a href="#account" onclick={() => { activePage = "account" }}>
                 Account
             </a></li>
-            <li class="end"><a href="#" onclick={() => { activePage = "home" }}>
+            <li class="end"><a href="#" onclick={() => { activePage = "" }}>
                 <LogoutButton bind:isLogged={isLogged}/>
             </a></li>
         {/if}

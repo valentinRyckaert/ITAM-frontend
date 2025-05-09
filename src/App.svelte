@@ -11,22 +11,23 @@
   import About from './lib/views/About.svelte'
 
   let isLogged: boolean = $state(false)
-  let activePage: string = $state('home')
+  let activePage: string = $state('')
   let errorLogged: boolean = $state(false)
+  let currentUser: any = $state()
 
   onMount(() => {
     isLogged = !(localStorage.getItem('authToken') === null || localStorage.getItem('authToken') === '')
-    if(localStorage.getItem('activePage')) activePage = localStorage.getItem('activePage')
+    if(localStorage.getItem('activePage')) activePage = localStorage.getItem('activePage') ?? ''
   })
 
   $effect(() => {
-    localStorage.setItem('activePage', activePage) 
+    localStorage.setItem('activePage', activePage)
   })
  
 </script>
 
 <div>
-  <Header bind:isLogged bind:activePage/>
+  <Header bind:isLogged bind:activePage bind:currentUser/>
   <main>
     {#if !isLogged}
       {#if errorLogged}
@@ -35,18 +36,18 @@
       <h2>Log in</h2>
       <LoginForm bind:isLogged={isLogged}/>
     {:else}
-      {#if activePage === "home"}
-        <Home/>
-      {:else if activePage === "devices"}
+      {#if activePage === "devices"}
         <Devices/>
       {:else if activePage === "packages"}
         <Packages/>
       {:else if activePage === "users"}
-        <Users/>
+        <Users bind:currentUser/>
       {:else if activePage === "account"}
         <Account/>
       {:else if activePage === "about"}
         <About/>
+      {:else}
+        <Home/>
       {/if}
     {/if}
   </main>

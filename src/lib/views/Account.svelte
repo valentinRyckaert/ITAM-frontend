@@ -1,8 +1,16 @@
 <script lang="ts">
+    import { onMount } from 'svelte'
     import { getCurrentUser } from '../../api/auth'
     import PutModal from '../components/data/modals/PutModal.svelte'
 
     let showModal: boolean = $state(false)
+    let doneMsg: boolean = $state(false)
+
+    $effect(() => {
+        if(!showModal) doneMsg = true 
+    })
+
+    onMount(() => doneMsg = false)
 
 </script>
 
@@ -15,6 +23,10 @@
         <h2>{currentUser.USER_username}</h2>
         <p>password : ****** <button onclick={() => showModal = true}>changer</button></p>
         <p>is Active: <input type="checkbox" checked={currentUser.USER_isActive} disabled></p>
+        {#if doneMsg}
+            <br>
+            <p style="color: green;">Your password has been changed successfully!</p>
+        {/if}
     </div>
     {#if showModal}
         <PutModal bind:showModal dataName="users" objectToModify={currentUser} objectConfig={{

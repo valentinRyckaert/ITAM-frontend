@@ -53,7 +53,7 @@ $button-background: #4d8f4f;
   }
 
   input {
-    width: 100%;
+    width: 95%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
