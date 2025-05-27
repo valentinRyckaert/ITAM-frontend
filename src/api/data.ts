@@ -1,7 +1,7 @@
-const URI: string = "http://localhost:8000/"
+const URI: string = import.meta.env.VITE_API_URI
 
 export async function getAllFromDB(ressourceName: string) {
-    const response = await fetch(URI + `${ressourceName}/`, {
+    const response = await fetch(URI + `/${ressourceName}/`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',

@@ -1,4 +1,4 @@
-const URI: string = "http://localhost:8000/auth/"
+const URI: string = `${import.meta.env.VITE_API_URI}/auth/`
 
 // Function to log in and store the token
 export async function login(username: string, password: string) {

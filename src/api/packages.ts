@@ -1,5 +1,5 @@
 export async function autoUpdate() {
-    const response = await fetch('http://localhost:8000/packages/autoupdate', {
+    const response = await fetch(`${import.meta.env.VITE_API_URI}/packages/autoupdate`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
