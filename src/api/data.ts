@@ -18,7 +18,7 @@ export async function getAllFromDB(ressourceName: string) {
 }
 
 export async function getOneFromDB(ressourceName: string, ressourceId: number) {
-    const response = await fetch(URI + `${ressourceName}/${ressourceId}`, {
+    const response = await fetch(URI + `/${ressourceName}/${ressourceId}`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export async function getOneFromDB(ressourceName: string, ressourceId: number) {
 }
 
 export async function postData(ressourceName:string, newRessource:object) {
-    const response = await fetch(URI + `${ressourceName}/`, {
+    const response = await fetch(URI + `/${ressourceName}/`, {
         method: "POST",
         headers: {
             'Accept': 'application/json',
@@ -53,7 +53,7 @@ export async function postData(ressourceName:string, newRessource:object) {
 }
 
 export async function putData(ressourceName:string, ressourceId: number, updatedRessource:Object) {
-    const response = await fetch(URI + `${ressourceName}/${ressourceId}`, {
+    const response = await fetch(URI + `/${ressourceName}/${ressourceId}`, {
         method: "PUT",
         headers: {
             'Accept': 'application/json',
@@ -71,7 +71,7 @@ export async function putData(ressourceName:string, ressourceId: number, updated
 }
 
 export async function deleteData(ressourceName: string, ressourceId: number) {
-    const response = await fetch(URI + `${ressourceName}/${ressourceId}/delete`, {
+    const response = await fetch(URI + `/${ressourceName}/${ressourceId}/delete`, {
         method: "DELETE",
         headers: {
             'Accept': 'application/json',
