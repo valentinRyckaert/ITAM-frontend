@@ -17,7 +17,10 @@
     function sendData() {
 		let objectToSend = {}
 		Object.keys(objectConfig).forEach((key) => {
-			if (data[objectConfig[key][0]] !== undefined) {
+			if(objectConfig[key][2] !== undefined) {
+				objectToSend[key] = data[objectConfig[key][0]][0] !== objectConfig[key][2] ? JSON.parse(JSON.stringify(data[objectConfig[key][0]][0])) : JSON.parse(JSON.stringify(objectToModify[key]))
+			}
+			else if (data[objectConfig[key][0]] !== undefined) {
 				objectToSend[key] = JSON.parse(JSON.stringify(data[objectConfig[key][0]][0]))
 			} else {
 				objectToSend[key] = JSON.parse(JSON.stringify(objectToModify[key]))

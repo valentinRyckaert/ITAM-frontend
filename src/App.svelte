@@ -56,7 +56,9 @@
 
 <style lang="scss">
   main {
-    padding: 20px;
+    padding-top: 20px;
+    padding-inline: 20px;
+    padding-bottom: 15%;
     h2 {
       text-align: center;
       color: #333;

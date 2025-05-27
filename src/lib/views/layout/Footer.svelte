@@ -18,17 +18,14 @@
   
 <style lang="scss">
     .footer {
-      bottom: 0;
-      left: 0;
-      right: 0;
-      position: fixed;
       width: 100%;
       background-color: #2c3e50;
       color: white;
       text-align: center;
       margin-top: 35px;
       border: hidden;
-      padding: 10px;
+      padding-block: 10px;
+      border-radius: 20px;
   
       .footer-content {
         display: flex;
