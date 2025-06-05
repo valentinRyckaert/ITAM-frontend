@@ -18,15 +18,16 @@
 		let objectToSend = {}
 		Object.keys(objectConfig).forEach((key) => {
 			if(objectConfig[key][2] !== undefined) {
+				// if the value of a field equals to its default value, that means we don't want to change it.
 				objectToSend[key] = data[objectConfig[key][0]][0] !== objectConfig[key][2] ? JSON.parse(JSON.stringify(data[objectConfig[key][0]][0])) : JSON.parse(JSON.stringify(objectToModify[key]))
 			}
 			else if (data[objectConfig[key][0]] !== undefined) {
 				objectToSend[key] = JSON.parse(JSON.stringify(data[objectConfig[key][0]][0]))
 			} else {
+				// if the value of a field is undefined, we send the current value to the API.
 				objectToSend[key] = JSON.parse(JSON.stringify(objectToModify[key]))
 			}
 		})
-		console.log(objectToSend)
         putData(dataName, Object.values(objectToSend)[0], objectToSend)
 			.then(() => { dialog.close(); reloadKey = {} })
 			.catch((error) => {
@@ -37,12 +38,23 @@
 	onMount(() => {
 		Object.keys(objectConfig).forEach((key) => {
 			if (objectConfig[key][2] !== null) {
+				// check if there is a default value for this field in objectConfig
 				data[objectConfig[key][0]] = [objectConfig[key][2] !== undefined ? objectConfig[key][2] : objectToModify[key], objectConfig[key][1]]
 			}
+			/* e.g:
+				data = {
+					"device group id": [3, "number"],
+					"id": [1, "number"],
+					"name": ["test", "text"],
+					"os": ["os", "text"]
+				}
+			*/
 		})
 	})
 </script>
 
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <dialog
 	bind:this={dialog}
 	onclose={() => (showModal = false)}

@@ -3,7 +3,7 @@
 
     import { postData } from "../../../../api/data"
 
-	let { showModal = $bindable(), reloadKey = $bindable(), dataName, objectToSend } = $props()
+	let { showModal = $bindable(), reloadKey = $bindable(), dataName, objectConfig } = $props()
 
 	let dialog = $state()
 	let dialogError = $state("")
@@ -22,6 +22,8 @@
     }
 </script>
 
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <dialog
 	bind:this={dialog}
 	onclose={() => (showModal = false)}
@@ -30,7 +32,7 @@
 	<div class="modal-content">
 		<p style="color: red;">{dialogError}</p>
 		<div class="form-group">
-            {#each Object.entries(objectToSend) as [key, value]}
+            {#each Object.entries(objectConfig) as [key, value]}
                 <label for="{value[0]}" class="form-label">{value[0]}:</label>
 				{#if value[1] === "checkbox"}
 					<input type="checkbox" id="{value[0]}" bind:checked={data[key]} class="form-checkbox"/>

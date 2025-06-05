@@ -29,6 +29,7 @@
   
   async function getFK(fk: string) {
     let item: string
+    // if the FK identifier does corresponds to data, we parse it
     if(fk.split('--')[1] !== 'null') {
       item = await getOneFromDB(fk.split(':')[1], parseInt(fk.split('--')[1]))
       return item[fk.split(':')[2].split('--')[0]]
@@ -39,9 +40,13 @@
   async function getData() {
     data = await getAllFromDB(dataName)
     if(foreignKeysToShow) {
+      // the objective is to load foreignkeys after the fetch of data
+      // we need to create for each key an identifier, which is processed in the HTML view
+      // In the HTML view, if we recognize an identifier, we call getFK()
       for(let i=0;i<data.length;i++) {
         dataWithFK[i] = Object.keys(data[i]).reduce((acc: any, key) => {
           if(key in foreignKeysToShow) {
+            // the identifier always begins with 'TF:'
             acc[key] = 'TF:'+foreignKeysToShow[key]+'--'+data[i][key]
           } else {
             acc[key] = data[i][key]
@@ -54,6 +59,7 @@
     }
 
     for(let i=0;i<data.length;i++) {
+      // constrution of table data with tableHeaders config
       sortedData[i] = Object.keys(tableHeaders).reduce((acc: any, key) => {
         if (key in dataWithFK[i]) {
           acc[key] = dataWithFK[i][key]
@@ -143,7 +149,7 @@
           {:else if modalType === 'delete' && canDelete}
               <DeleteModal bind:showModal bind:reloadKey dataName={dataName} objectToDelete={dataForModal} objectConfig={showOrDeleteConfig}/>
           {:else if modalType === 'post' && canCreate}
-              <PostModal bind:showModal bind:reloadKey dataName={dataName} objectToSend={createOrUpdateConfig}/>
+              <PostModal bind:showModal bind:reloadKey dataName={dataName} objectConfig={createOrUpdateConfig}/>
           {/if}
       {/if}
   {/await}
